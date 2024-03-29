@@ -163,28 +163,6 @@ boycott_company('Mars', 'Mars will support israeli start-ups and the formation o
 
 
 
- listOrders([], []). % Base case: empty list returns empty list of orders
-listOrders([Customer|Rest], AllOrders) :-
-    listOrders(Rest, RestOrders), % Recursively process the rest of the list
-    find_customer_id(Customer, CustomerId), % Find CustomerId for current Customer
-    collect_orders(CustomerId, Orders), % Collect orders for current Customer
-    append(Orders, RestOrders, AllOrders). % Append current orders to the accumulated list
-
-% Helper predicate to find the CustomerId based on Customer name
-find_customer_id(Customer, CustomerId) :-
-    customer(CustomerId, Customer).
-
-% Helper predicate to collect orders for a given CustomerId
-collect_orders(CustomerId, Orders) :-
-    collect_orders(CustomerId, [], Orders).
-
-collect_orders(CustomerId, AccOrders, Orders) :-
-    (order(CustomerId, OrderId, Items) ->
-        NewOrder = order(CustomerId, OrderId, Items),
-        UpdatedOrders = [NewOrder|AccOrders], % Construct the updated list
-        collect_orders(CustomerId, UpdatedOrders, Orders) % Continue collecting orders
-    ;
-        Orders = AccOrders). % When no more orders are found, unify Orders with the accumulated list
 
 
 
